@@ -5,17 +5,39 @@ import AccountBox from "./DashboardElements/AccountBox.jsx";
 import Chart from "./DashboardElements/Chart.jsx";
 
 export default function Dashboard({ username }) {
-  const [accessToken, setAccessToken] = useState(null);
-  let [accounts, setAccounts] = useState(null);
+  let [accessToken, setAccessToken] = useState([]);
+  let [accounts, setAccounts] = useState([]);
   let [groupedAccounts, setGroupedAccounts] = useState([]);
   let [renderAccSelector, setRenderAccSelector] = useState(false);
   let [accountIndex, setAccountIndex] = useState(0);
   let serverAddress = "http://localhost:3333";
   let [chartData, setChartData] = useState();
 
-  const months = ["Jan", "Feb", "Mar", "Apr", "May", "June", 
-                  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
-  ]
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "June", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+
+  //on render, try to get the access tokens
+  useEffect(() => {
+    const fetchAccessToken = async () => {
+      try {
+            const tokenResponse = await Facade.getExistingToken(username);
+            if(!tokenResponse){
+              return;
+            }
+            const tokenStrings = tokenResponse.map(t => t.token);
+            setAccessToken(tokenStrings);
+            
+            //get all of the transactions for each token!
+            for(let i = 0; i < tokenStrings.length; i++){
+              const transactions = await Facade.getTransactions(tokenStrings[i]);
+              setAccounts(prev => [...prev, transactions])
+            }
+
+          } catch (error) {
+            console.error("Error fetching tokens on init:", error)
+          }
+    }
+    fetchAccessToken();
+  } ,[])
 
   //every time a new account is selected or if the accounts change, update the chart data
   useEffect(() => {
@@ -43,20 +65,26 @@ export default function Dashboard({ username }) {
 
   //whenever the accounts change, group them for easier parsing dispaly
   useEffect(() => {
-    if (!accounts || !accounts.accounts) return;
-    console.log(accounts);
-    setGroupedAccounts(
-      // for each account map the data into an array
-      accounts.accounts.map((acc) => ({
-        ...acc,
-        transactions: [
-          //add the whole category, just filter out anything that doesnt match the current id
-          ...(accounts.transactions?.filter(
-            (t) => t.account_id === acc.account_id
-          ) ?? []),
-        ],
-      }))
-    );
+    if (!accounts || accounts.length === 0) return;
+
+    const allGrouped = [];
+
+    accounts.forEach((accountData) => {
+      if (!accountData || !accountData.accounts) return;
+      
+        const grouped = accountData.accounts.map((acc) => ({
+          ...acc,
+          transactions: [
+            ...(accountData.transactions?.filter(
+              (t) => t.account_id === acc.account_id
+            ) ?? []),
+          ],
+        }));
+        
+        allGrouped.push(...grouped);
+      });
+  
+    setGroupedAccounts(allGrouped);
   }, [accounts]);
 
   async function linkToken() {
@@ -85,10 +113,14 @@ export default function Dashboard({ username }) {
               return;
             }
 
-            setAccessToken(accessToken);
+            //store the token in the db
+            await Facade.addToken(username, accessToken);
 
-            const data = await Facade.getTransactions(accessToken);
-            setAccounts(data);
+            //add the token to the list
+            setAccessToken(prev => [...prev, accessToken]);
+            //get the transactions for this token and add it to the list
+            const transactions = await Facade.getTransactions(accessToken);
+            setAccounts(prev => [...prev, transactions])
 
             alert("Link was successful!")
             console.log("Access token:", accessToken);
@@ -113,7 +145,7 @@ export default function Dashboard({ username }) {
       alert("Please link an account first.");
       return;
     }
-    const data = await Facade.getTransactions(accessToken);
+    const data = await Facade.getTransactions(accessToken[0]);
     setAccounts(data);
   }
 

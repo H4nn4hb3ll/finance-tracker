@@ -8,16 +8,30 @@ datasource db {
 }
 
 model users {
-  userID        Int     @id @default(autoincrement())
-  username      String  @unique
-  password      String
-  sessionStatus Boolean @default(false)
+  userID         Int       @id @default(autoincrement())
+  username       String    @unique
+  password       String
+  sessionStatus  Boolean   @default(false)
+  tokens         tokens[]
+  budgets        budgets[]
 }
 
-model transactions {
-  transactionID Int      @id @default(autoincrement())
-  date          DateTime
-  category      String
-  amount        Float
-  type          String
+model tokens {
+  tokenID   Int     @id @default(autoincrement())
+  userID    Int
+  token     String
+  user      users   @relation(fields: [userID], references: [userID], onDelete: Cascade)
+  
+  @@index([userID])
+}
+
+model budgets {
+  budgetID     Int     @id @default(autoincrement())
+  userID       Int
+  accountName  String
+  budget       Float
+  user         users   @relation(fields: [userID], references: [userID], onDelete: Cascade)
+  
+  @@unique([userID, accountName])
+  @@index([userID])
 }
