@@ -20,6 +20,19 @@ describe("LandingPage functions (Facade-based)", () => {
     render(<LandingPage onLogin={onLoginMock} />);
   });
 
+  it("calls Facade.createUser for account creation", async () => {
+    Facade.createUser.mockResolvedValue({ status: 1, message: "User created successfully" });
+
+    fireEvent.change(screen.getByPlaceholderText("Username"), { target: { value: "testuser" } });
+    fireEvent.change(screen.getByPlaceholderText("Password"), { target: { value: "password" } });
+    fireEvent.click(screen.getByText("Create Account"));
+
+    await new Promise(process.nextTick);
+
+    expect(Facade.createUser).toHaveBeenCalledWith("testuser", "password");
+    expect(global.alert).toHaveBeenCalledWith("User created successfully");
+  });
+
   it("calls Facade.login when Login button is clicked", async () => {
     Facade.login.mockResolvedValue({ status: 1, message: "Login successful" });
 
@@ -32,15 +45,5 @@ describe("LandingPage functions (Facade-based)", () => {
     expect(Facade.login).toHaveBeenCalledWith("testuser", "password");
     expect(global.alert).toHaveBeenCalledWith("Login successful");
     expect(onLoginMock).toHaveBeenCalledWith("testuser");
-  });
-
-  it("calls Facade.createUser when Create Account is clicked", async () => {
-    Facade.createUser.mockResolvedValue({ message: "Account created" });
-
-    fireEvent.click(screen.getByText("Create Account"));
-    await new Promise(process.nextTick);
-
-    expect(Facade.createUser).toHaveBeenCalled();
-    expect(global.alert).toHaveBeenCalledWith("Account created");
   });
 });

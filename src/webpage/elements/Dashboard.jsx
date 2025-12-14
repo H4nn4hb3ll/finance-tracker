@@ -12,7 +12,6 @@ export default function Dashboard({ username }) {
   let [groupedAccounts, setGroupedAccounts] = useState([]);
   let [renderAccSelector, setRenderAccSelector] = useState(false);
   let [accountIndex, setAccountIndex] = useState(0);
-  let serverAddress = "http://localhost:3333";
   let [chartData, setChartData] = useState();
   const [monthlySpend, setMonthlySpend] = useState(0);
   const [alerts, setAlerts] = useState([]);

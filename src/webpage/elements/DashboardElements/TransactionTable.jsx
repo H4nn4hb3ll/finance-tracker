@@ -25,18 +25,6 @@ export default function TransactionsTable({ account }) {
   }, [account]);
 
   return (
-    // <>
-    //   {transactions.map((transaction, idx) => (
-    //     <div key={idx} className="transactionBox">
-    //       <div>Name: {transaction.merchant_name || transaction.name}</div>
-    //       <div>Description: {transaction.name}</div>
-    //       <div>Type: {transaction.transaction_type}</div>
-    //       <div>Category: {transaction.category || "N/A"}</div>
-    //       <div>Amount: {transaction.amount}</div>
-    //       <div>Date: {transaction.date}</div>
-    //     </div>
-    //   ))}
-    // </>
 
     <div className="table-container">
       <h2 className="table-header">{account.name}</h2>

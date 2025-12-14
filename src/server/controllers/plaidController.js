@@ -1,13 +1,15 @@
 import plaid from 'plaid'
+import dotenv from 'dotenv';
 
 //Initialize Plaid client
+dotenv.config()
 const client = new plaid.PlaidApi(
     new plaid.Configuration({
         basePath: plaid.PlaidEnvironments['sandbox'],
         baseOptions: {
             headers: {
-                "PLAID-CLIENT-ID": "68eeb04b57d552001e2d3bc7",
-                "PLAID-SECRET": "452e38c47e9583020d4128984ea356",
+                "PLAID-CLIENT-ID": process.env.PLAID_CLIENT-ID,
+                "PLAID-SECRET": process.env.PLAID_SECRET,
                 "Plaid-Version": "2020-09-14"
             }
         }

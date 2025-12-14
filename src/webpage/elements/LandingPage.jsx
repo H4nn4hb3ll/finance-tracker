@@ -7,10 +7,6 @@ export default function LandingPage({ onLogin }) {
 
   // Handles user login
   async function handleLogin() {
-    
-    //hard wired login override: need to rewire front end to middleware
-    //onLogin("username")
-
     try {
       const data = await Facade.login(username, password);
       alert(data.message);
