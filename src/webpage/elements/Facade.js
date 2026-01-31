@@ -1,5 +1,5 @@
 // src/Facade.js
-const serverAddress = "http://localhost:3333";
+const serverAddress = "http://192.168.50.63:3333";
 
 // Log in user
 export async function login(username, password) {
