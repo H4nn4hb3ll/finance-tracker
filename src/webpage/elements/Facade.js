@@ -1,5 +1,5 @@
 // src/Facade.js
-const serverAddress = "https://citation-kate-genetic-view.trycloudflare.com/";
+const serverAddress = "https://citation-kate-genetic-view.trycloudflare.com";
 
 // Log in user
 export async function login(username, password) {
