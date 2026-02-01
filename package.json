@@ -1,0 +1,63 @@
+{
+  "name": "my-react-app",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "server": "node ./src/server/middlewareServer.js",
+    "generate": "prisma generate",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "plaid": "^17.0.0",
+    "prisma": "^5.22.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "recharts": "^3.3.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.36.0",
+    "@tailwindcss/postcss": "^4.1.17",
+    "@tailwindcss/vite": "^4.1.17",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.1.16",
+    "@types/react-dom": "^19.1.9",
+    "@vitejs/plugin-react": "^5.0.4",
+    "autoprefixer": "^10.4.21",
+    "eslint": "^9.36.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.22",
+    "globals": "^16.4.0",
+    "jsdom": "^27.0.1",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.17",
+    "vite": "^7.1.7",
+    "vitest": "^3.2.4",
+    "whatwg-fetch": "^3.6.20"
+  },
+  "description": "<div>\r     This web application is designed to track user financial information. When fully implemented, the application will be accessible via web browser and hosted on our personal servers.\r </div>\r <div>\r     Currently to view system functionality, you must have node.js installed to run the scripts detailed in <strong>package.json</strong>. \r     First, using your systems terminal, navigate to the <strong>PlaidProject</strong> directory. We recommend opening this directory in two separate terminal windows. When in the directory, <strong>npm run dev</strong> will host the web page and it’s associated scripts on the web address <strong>http://localhost:5127</strong>. Using the other terminal, <strong>npm run server</strong> will host the server. Most of the application functionalities will not run without a running server.\r <div>\r <div>\r     You will enter a landing page where you can either log in to an existing account or create a new account. The created account will store a username, password, and an access token if a bank account is linked.\r <div>\r <div>\r     Because the server is not yet hosted on personal servers, and is still in development, a testing account has been hard coded and will navigate to the prototype dashboard. This testing account is <strong>user</strong> for the username and <strong>pass</strong> for the password.\r <div>\r <div>\r     The prototype dashboard is a simple dashboard that will simulate the linking of a bank account using plaid services and grab a variety of fake bank account information to display. After clicking on the “link account” button a plaid interface will appear. When prompted for a bank account username and password, enter <strong>user_good</strong> and <strong>pass_good</strong>. After Plaid verifies the bank account is linked, clicking “display transactions” will retrieve all transactions associated with the lined bank account to the user.\r <div>\r <div>\r     Future implementations will include signed certificates and https, encrypted passwords and access tokens, improved functionality for displaying and searching transaction information, and user interface quality improvements.\r <div>",
+  "main": "eslint.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UNF-CEN4010/G2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/UNF-CEN4010/G2/issues"
+  },
+  "homepage": "https://github.com/UNF-CEN4010/G2#readme"
+}
